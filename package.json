@@ -23,7 +23,6 @@
     "@types/papaparse": "^5.3.14",
     "@types/react": "^18",
     "@types/react-dom": "^18",
-    "@types/sql.js": "^1.4.11",
     "@types/uuid": "^9.0.8",
     "typescript": "^5"
   }
