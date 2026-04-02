@@ -15,7 +15,7 @@ export async function GET(): Promise<NextResponse<DocumentsResponse>> {
       const { columns, values } = result[0];
       for (const row of values) {
         const doc: Record<string, unknown> = {};
-        columns.forEach((col, i) => { doc[col] = row[i]; });
+        columns.forEach((col: string, i: number) => { doc[col] = row[i]; });
         documents.push(doc as unknown as Document);
       }
     }
