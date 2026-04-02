@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { v4 as uuidv4 } from "uuid";
-import getDb, { persist } from "@/lib/db";
+import { saveDocument } from "@/lib/db";
 import { buildSystemPrompt, generateTitle } from "@/lib/prompts";
 import { GenerateRequest, GenerateResponse, Document } from "@/types";
 
@@ -70,13 +70,7 @@ const outputText: string = groqData?.choices?.[0]?.message?.content || "";
       created_at: createdAt,
     };
 
-    const db = await getDb();
-    db.run(
-      `INSERT INTO documents (id, title, type, tone, input_text, output_text, word_count, created_at)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
-      [doc.id, doc.title, doc.type, doc.tone, doc.input_text, doc.output_text, doc.word_count, doc.created_at]
-    );
-    persist();
+    await saveDocument(doc);
 
     return NextResponse.json({ success: true, document: doc });
   } catch (error: unknown) {

@@ -1,24 +1,9 @@
-import path from "path";
-import fs from "fs";
-import initSqlJs, { Database } from "sql.js";
+import { neon } from "@neondatabase/serverless";
 
-const DB_PATH = path.resolve(process.cwd(), "briefbot.db");
+const sql = neon(process.env.DATABASE_URL!);
 
-let db: Database | null = null;
-
-async function getDb(): Promise<Database> {
-  if (db) return db;
-
-  const SQL = await initSqlJs();
-
-  if (fs.existsSync(DB_PATH)) {
-    const fileBuffer = fs.readFileSync(DB_PATH);
-    db = new SQL.Database(fileBuffer);
-  } else {
-    db = new SQL.Database();
-  }
-
-  db.run(`
+export async function initDb() {
+  await sql`
     CREATE TABLE IF NOT EXISTS documents (
       id          TEXT PRIMARY KEY,
       title       TEXT NOT NULL,
@@ -28,17 +13,24 @@ async function getDb(): Promise<Database> {
       output_text TEXT NOT NULL,
       word_count  INTEGER NOT NULL DEFAULT 0,
       created_at  TEXT NOT NULL
-    );
-  `);
-
-  persist();
-  return db;
+    )
+  `;
 }
 
-export function persist() {
-  if (!db) return;
-  const data = db.export();
-  fs.writeFileSync(DB_PATH, Buffer.from(data));
+export async function saveDocument(doc: {
+  id: string; title: string; type: string; tone: string;
+  input_text: string; output_text: string; word_count: number; created_at: string;
+}) {
+  await initDb();
+  await sql`
+    INSERT INTO documents (id, title, type, tone, input_text, output_text, word_count, created_at)
+    VALUES (${doc.id}, ${doc.title}, ${doc.type}, ${doc.tone}, ${doc.input_text}, ${doc.output_text}, ${doc.word_count}, ${doc.created_at})
+  `;
 }
 
-export default getDb;
+export async function getAllDocuments() {
+  await initDb();
+  return await sql`SELECT * FROM documents ORDER BY created_at DESC`;
+}
+
+export default { saveDocument, getAllDocuments };
