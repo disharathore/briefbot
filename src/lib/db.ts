@@ -32,5 +32,3 @@ export async function getAllDocuments() {
   await initDb();
   return await sql`SELECT * FROM documents ORDER BY created_at DESC`;
 }
-
-export default { saveDocument, getAllDocuments };
