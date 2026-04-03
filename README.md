@@ -1,6 +1,6 @@
 # ✦ BriefBot — Turn messy notes into polished documents in seconds
 
-🔗 **[Open BriefBot →](https://briefbot-disha.vercel.app)**
+🔗 **[Open BriefBot →](https://briefbot-git-master-disharathore555-gmailcoms-projects.vercel.app)**
 
 ---
 
