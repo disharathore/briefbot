@@ -1,269 +1,112 @@
-# BriefBot — AI Document Assistant
+# ✦ BriefBot — Turn messy notes into polished documents in seconds
 
-
-Convert raw notes, meeting minutes, and CSV data into polished SOPs, reports,
-emails, summaries, and checklists — powered by Claude AI.
-
----   
-
-## What this project does
-
-- Paste messy text OR upload a .csv/.txt file
-- Choose output type: SOP, Report, Email, Summary, Checklist
-- Choose tone: Professional, Friendly, Concise, Detailed
-- AI generates a polished document instantly
-- Every generated doc is auto-saved to a local SQLite database
-- Dashboard to browse, search, filter, and delete past documents
-- Export any document to PDF or TXT
+🔗 **[Open BriefBot →](https://briefbot-disha.vercel.app)**
 
 ---
 
-## Tech stack
+## What is it?
 
-| Layer     | Technology                          |
-|-----------|-------------------------------------|
-| Frontend  | Next.js 14, React 18, TypeScript    |
-| AI        | Anthropic Claude API (claude-opus-4-5) |
-| Database  | SQLite via better-sqlite3           |
-| PDF       | jsPDF                               |
-| CSV parse | PapaParse                           |
-| Deploy    | Vercel (free)                       |
+BriefBot is an AI-powered internal tool that takes your rough notes, meeting minutes, or raw text — and turns them into clean, professional documents instantly.
+
+No formatting. No rewriting. No back and forth.
+Just paste your notes and get a document that's ready to send.
 
 ---
 
-## Step 1 — Install Node.js
+## What can it generate?
 
-You need Node.js version 18 or higher.
-
-Check if you have it:
-```
-node --version
-```
-
-If the command fails or shows a version below 18, download it from:
-https://nodejs.org  (click the "LTS" button and install)
+| Type | Best for |
+|---|---|
+| **SOP** | Process documentation, onboarding steps, operational guides |
+| **Report** | Weekly updates, business reviews, findings summaries |
+| **Email** | Drafting team emails, vendor communication, follow-ups |
+| **Summary** | Meeting recaps, decision logs, quick briefings |
+| **Checklist** | Launch checklists, closing procedures, task tracking |
 
 ---
 
-## Step 2 — Get your Anthropic API key
+## How to use it — 3 steps
 
-1. Go to https://console.anthropic.com
-2. Sign up or log in
-3. Click "API Keys" in the left sidebar
-4. Click "Create Key"
-5. Copy the key — it starts with `sk-ant-...`
-6. Keep this key safe, never share it publicly
+**1. Paste your notes**
+Drop in anything — bullet points, voice note transcript, meeting scribbles. The messier the better.
+
+**2. Pick your type and tone**
+Choose what you need (SOP, Report, Email, etc.) and how it should sound:
+- **Professional** — formal, corporate-ready
+- **Friendly** — warm, conversational
+- **Concise** — short and punchy, bullets only
+- **Detailed** — thorough, with full explanations
+
+**3. Get your document**
+Click Generate. Your document appears in seconds — formatted, structured, and ready to copy, download as PDF, or save.
 
 ---
 
-## Step 3 — Set up the project
+## What do you actually save?
 
-Open your terminal (Command Prompt on Windows, Terminal on Mac).
+| Without BriefBot | With BriefBot |
+|---|---|
+| 45 min writing an SOP from scratch | 30 seconds |
+| Rewriting the same email 3 times to get the tone right | Pick a tone, done |
+| Formatting a report manually in Word | PDF downloaded instantly |
+| Searching for a document you made last week | Find it in History or My Docs in 2 seconds |
 
-Navigate to where you want the project to live:
-```
-cd Desktop
-```
+---
 
-Clone or copy the briefbot folder there, then enter it:
-```
+## Everything inside the app
+
+- **Generate** — the main page, where you create documents
+- **My Documents** — every document you've made, searchable and filterable
+- **History** — a timeline of everything you've generated, by date
+- **Analytics** — see which document types and tones you use most
+- **Templates** — 9 ready-made starters (just click and generate)
+- **Settings** — set your default type, tone, and preferences
+
+---
+
+## Templates included
+
+Don't know where to start? Use a template:
+- Employee Onboarding SOP
+- Customer Returns SOP
+- Kiosk Opening Checklist
+- Weekly Sales Report
+- Platform Performance Report
+- Influencer Collaboration Email
+- Vendor Delay Response Email
+- Meeting Summary
+- Product Launch Summary
+
+Click any template → it pre-fills everything → hit Generate.
+
+---
+
+## Run it locally
+
+```bash
+git clone https://github.com/disharathore/briefbot
 cd briefbot
-```
-
-Install all dependencies (this downloads everything from package.json):
-```
 npm install
 ```
 
-This takes 1-2 minutes. You will see a lot of text scroll by — that is normal.
-
----
-
-## Step 4 — Add your API key
-
-In the briefbot folder, create a file called `.env.local`
-
-On Mac/Linux:
+Create `.env.local`:
 ```
-cp .env.local.example .env.local
+GROQ_API_KEY=your_key_here     # free at console.groq.com
+DATABASE_URL=your_neon_url     # free at neon.tech
 ```
 
-On Windows (Command Prompt):
-```
-copy .env.local.example .env.local
-```
-
-Now open `.env.local` in any text editor (Notepad is fine) and replace:
-```
-ANTHROPIC_API_KEY=your_api_key_here
-```
-with your actual key:
-```
-ANTHROPIC_API_KEY=sk-ant-api03-xxxxxxxxxxxxxxxx
-```
-
-Save the file. Done.
-
----
-
-## Step 5 — Run the app locally
-
-```
+```bash
 npm run dev
 ```
 
-You will see output like:
-```
-▲ Next.js 14.2.3
-- Local: http://localhost:3000
-```
-
-Open your browser and go to: http://localhost:3000
-
-The SQLite database file `briefbot.db` is created automatically the first time
-you generate a document. You don't need to do anything for this.
+Open [http://localhost:3000](http://localhost:3000)
 
 ---
 
-## Step 6 — Use the app
+## Built with
 
-**Generate page (http://localhost:3000)**
-- Upload a .csv or .txt file OR paste raw notes in the text area
-- Select output type (SOP, Report, Email, Summary, Checklist)
-- Select tone (Professional, Friendly, Concise, Detailed)
-- Click Generate
-- The document appears below and is auto-saved
-
-**Dashboard (http://localhost:3000/dashboard)**
-- See all saved documents
-- Search by keyword
-- Filter by document type
-- Expand any document to read it
-- Export to PDF or TXT
-- Delete documents
+Next.js 15 · TypeScript · React · Groq AI · Neon PostgreSQL · jsPDF · Vercel
 
 ---
 
-## Step 7 — Deploy to Vercel (free, get a live link)
-
-This gives you a public URL like `https://briefbot-disha.vercel.app`
-which you can put on your resume and show to recruiters.
-
-### 7a — Push to GitHub
-
-1. Go to https://github.com and create a new repository called `briefbot`
-2. Make it public
-3. In your terminal inside the briefbot folder:
-
-```
-git init
-git add .
-git commit -m "Initial commit — BriefBot AI document assistant"
-git branch -M main
-git remote add origin https://github.com/YOUR_USERNAME/briefbot.git
-git push -u origin main
-```
-
-Replace YOUR_USERNAME with your actual GitHub username.
-
-### 7b — Deploy on Vercel
-
-1. Go to https://vercel.com and sign up with your GitHub account
-2. Click "Add New Project"
-3. Find your `briefbot` repo and click Import
-4. On the configuration screen, click "Environment Variables"
-5. Add:
-   - Name: `ANTHROPIC_API_KEY`
-   - Value: your sk-ant-... key
-6. Click Deploy
-
-Vercel builds and deploys in about 2 minutes. You get a live URL.
-
-**Important note about the database on Vercel:**
-Vercel runs serverless functions — the SQLite file cannot persist between
-requests. For a fully working deployed version with persistent storage, you
-have two options:
-
-Option A (easiest — free): Use Vercel's free Postgres database
-- In Vercel dashboard → Storage → Create Database → Postgres
-- Copy the `POSTGRES_URL` it gives you
-- Replace the `better-sqlite3` DB calls with the `@vercel/postgres` package
-
-Option B (simplest for demo — no DB): Just show the generate page working
-with AI — the output is displayed in the UI and can be exported. The database
-is for the dashboard's history feature.
-
-For your resume and interview demo, Option B is fine. The AI generation,
-PDF export, and the full UI all work perfectly without the DB on Vercel.
-
----
-
-## File structure explained
-
-```
-briefbot/
-├── src/
-│   ├── app/
-│   │   ├── page.tsx                  ← Generate page (main UI)
-│   │   ├── layout.tsx                ← Root HTML wrapper + fonts
-│   │   ├── globals.css               ← App-wide styles
-│   │   ├── dashboard/
-│   │   │   └── page.tsx              ← Document history dashboard
-│   │   └── api/
-│   │       ├── generate/route.ts     ← POST: calls Claude, saves to DB
-│   │       └── documents/route.ts    ← GET: list docs, DELETE: remove doc
-│   ├── components/
-│   │   ├── Sidebar.tsx               ← Left navigation bar
-│   │   ├── StatsBar.tsx              ← Docs count, time saved, words
-│   │   ├── UploadZone.tsx            ← Drag-and-drop CSV/TXT upload
-│   │   └── OutputCard.tsx            ← Generated doc display + export
-│   ├── lib/
-│   │   ├── db.ts                     ← SQLite connection + table setup
-│   │   ├── prompts.ts                ← AI system prompts per doc type
-│   │   └── export.ts                 ← PDF and TXT export logic
-│   └── types/
-│       └── index.ts                  ← TypeScript types used everywhere
-├── .env.local.example                ← Copy this to .env.local
-├── next.config.js                    ← Next.js config
-├── package.json                      ← All dependencies
-└── tsconfig.json                     ← TypeScript config
-```
-
----
-
-## Resume bullet points to use
-
-After building and deploying this:
-
-> Built BriefBot, an AI-powered internal document assistant that converts raw
-> notes and CSV data into polished SOPs, reports, and email drafts using the
-> Claude API — reducing documentation effort by ~70%; built with Next.js,
-> TypeScript, Node.js, SQLite, and deployed on Vercel.
-
-Key numbers to mention in interviews:
-- Supports 5 document types and 4 tone modes
-- Auto-saves to SQLite with full CRUD dashboard
-- PDF and TXT export built in
-- CSV file parsing with PapaParse
-- End-to-end: frontend, API routes, database, AI integration, deployment
-
----
-
-## Common errors and fixes
-
-**Error: ANTHROPIC_API_KEY is not configured**
-→ You forgot to create .env.local or the key is wrong. Re-read Step 4.
-
-**Error: Cannot find module 'better-sqlite3'**
-→ Run `npm install` again. If on Windows, you may need to install build tools:
-   `npm install --global windows-build-tools`
-
-**Error: Module not found '@/components/...'**
-→ Make sure you are running `npm run dev` from inside the briefbot folder.
-
-**Port 3000 already in use**
-→ Run `npm run dev -- --port 3001` to use a different port.
-
-**PDF export does nothing**
-→ Check your browser's download folder. Some browsers block auto-downloads.
-   Click "Allow" if a popup appears.
+*Built by Disha Rathore · 2026*
